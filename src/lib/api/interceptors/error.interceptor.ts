@@ -1,4 +1,4 @@
-import type { AxiosInstance, AxiosError, AxiosResponse } from 'axios'
+import type { AxiosError, AxiosInstance, AxiosResponse } from 'axios'
 import type { ApiError, RateLimitHeaders } from '@/lib/types/api.types'
 
 /**
@@ -18,11 +18,7 @@ export class ApiErrorException extends Error {
   public readonly details?: Array<{ field: string; message: string }>
   public readonly rateLimit?: RateLimitHeaders
 
-  constructor(
-    errorData: ApiError,
-    status: number,
-    rateLimit?: RateLimitHeaders,
-  ) {
+  constructor(errorData: ApiError, status: number, rateLimit?: RateLimitHeaders) {
     super(errorData.message)
     this.name = 'ApiErrorException'
     this.status = status
@@ -37,9 +33,7 @@ export class ApiErrorException extends Error {
 /**
  * Extract rate limit headers from response
  */
-function extractRateLimitInfo(
-  response: AxiosResponse,
-): RateLimitHeaders | undefined {
+function extractRateLimitInfo(response: AxiosResponse): RateLimitHeaders | undefined {
   const limit = response.headers['x-ratelimit-limit']
   const remaining = response.headers['x-ratelimit-remaining']
   const reset = response.headers['x-ratelimit-reset']
@@ -116,34 +110,29 @@ export function setupErrorInterceptors(axiosInstance: AxiosInstance): void {
           throw new ApiErrorException(
             {
               error: 'Timeout',
-              message:
-                'Request timed out. Please check your connection and try again.',
+              message: 'Request timed out. Please check your connection and try again.',
               timestamp: new Date().toISOString(),
               path: error.config?.url || '',
             },
-            0,
+            0
           )
         }
 
         throw new ApiErrorException(
           {
             error: 'Network Error',
-            message:
-              'Unable to connect to the server. Please check your internet connection.',
+            message: 'Unable to connect to the server. Please check your internet connection.',
             timestamp: new Date().toISOString(),
             path: error.config?.url || '',
           },
-          0,
+          0
         )
       }
 
       // Server responded with error status
       const errorData: ApiError = error.response.data || {
         error: 'Server Error',
-        message: getUserFriendlyMessage(
-          error.response.data,
-          error.response.status,
-        ),
+        message: getUserFriendlyMessage(error.response.data, error.response.status),
         timestamp: new Date().toISOString(),
         path: error.config?.url || '',
       }
@@ -162,11 +151,7 @@ export function setupErrorInterceptors(axiosInstance: AxiosInstance): void {
         })
       }
 
-      throw new ApiErrorException(
-        errorData,
-        error.response.status,
-        rateLimitInfo,
-      )
-    },
+      throw new ApiErrorException(errorData, error.response.status, rateLimitInfo)
+    }
   )
 }

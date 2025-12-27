@@ -6,26 +6,50 @@
     "useIgnoreFile": true
   },
   "files": {
-    "ignoreUnknown": true,
+    "ignoreUnknown": false,
     "includes": ["**", "!node_modules", "!.next", "!dist", "!build"]
   },
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
-    "indentWidth": 2
+    "indentWidth": 2,
+    "lineWidth": 100,
+    "lineEnding": "lf"
   },
   "javascript": {
     "formatter": {
       "semicolons": "asNeeded",
-      "quoteStyle": "single"
+      "quoteStyle": "single",
+      "trailingCommas": "es5",
+      "arrowParentheses": "always",
+      "bracketSpacing": true,
+      "bracketSameLine": false
     }
   },
   "linter": {
     "enabled": true,
     "rules": {
       "recommended": true,
+      "a11y": {
+        "useValidAnchor": "off",
+        "noLabelWithoutControl": "off"
+      },
+      "complexity": {
+        "noUselessFragments": "warn"
+      },
+      "style": {
+        "noParameterAssign": "off",
+        "useNamingConvention": "off"
+      },
+      "correctness": {
+        "noUnusedVariables": "warn",
+        "noChildrenProp": "off",
+        "useExhaustiveDependencies": "off"
+      },
       "suspicious": {
-        "noUnknownAtRules": "off"
+        "noConsole": "off",
+        "noArrayIndexKey": "off",
+        "noDuplicateJsxProps": "warn"
       }
     },
     "domains": {
@@ -34,6 +58,7 @@
     }
   },
   "assist": {
+    "enabled": true,
     "actions": {
       "source": {
         "organizeImports": "on"

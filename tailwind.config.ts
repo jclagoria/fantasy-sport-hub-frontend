@@ -1,6 +1,6 @@
 import type { Config } from 'tailwindcss'
 
-// @ts-ignore
+// @ts-expect-error
 const config: Config = {
   darkMode: ['class', 'dark'],
   content: [

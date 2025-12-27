@@ -12,8 +12,7 @@ export const queryClientConfig = {
 
       // Retry failed requests
       retry: 3,
-      retryDelay: (attemptIndex: number) =>
-        Math.max(1000 * 2 ** attemptIndex, 3000),
+      retryDelay: (attemptIndex: number) => Math.max(1000 * 2 ** attemptIndex, 3000),
 
       // Refetch on window focus (useful for live scoring)
       refetchOnWindowFocus: false,
@@ -35,5 +34,5 @@ export const queryClientConfig = {
 }
 
 // Create singleton query client instance
-// @ts-ignore
+// @ts-expect-error
 export const queryClient = new QueryClient(queryClientConfig)

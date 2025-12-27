@@ -1,8 +1,4 @@
-import type {
-  AxiosInstance,
-  InternalAxiosRequestConfig,
-  AxiosError,
-} from 'axios'
+import type { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from 'axios'
 import { useAuthStore } from '@/lib/stores/authStore'
 import type { TokenPair } from '@/lib/types/api.types'
 
@@ -51,10 +47,7 @@ export function setupAuthInterceptor(axiosInstance: AxiosInstance): void {
       const { accessToken } = useAuthStore.getState()
 
       // Skip auth for public endpoints
-      if (
-        config.url?.includes('/aut/login') ||
-        config.url?.includes('/auth/register')
-      ) {
+      if (config.url?.includes('/aut/login') || config.url?.includes('/auth/register')) {
         return config
       }
 
@@ -65,7 +58,7 @@ export function setupAuthInterceptor(axiosInstance: AxiosInstance): void {
 
       return config
     },
-    (error) => Promise.reject(error),
+    (error) => Promise.reject(error)
   )
 
   // Response interceptor - handle 401 and token refresh
@@ -111,8 +104,7 @@ export function setupAuthInterceptor(axiosInstance: AxiosInstance): void {
           throw new Error('Token refresh failed')
         }
 
-        const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
-          response.data
+        const { accessToken: newAccessToken, refreshToken: newRefreshToken } = response.data
 
         // Update tokens in store
         useAuthStore.getState().setTokens(newAccessToken, newRefreshToken)
@@ -142,6 +134,6 @@ export function setupAuthInterceptor(axiosInstance: AxiosInstance): void {
 
         return Promise.reject(refreshError)
       }
-    },
+    }
   )
 }

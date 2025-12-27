@@ -1,7 +1,4 @@
-import axios, {
-  type AxiosInstance,
-  type InternalAxiosRequestConfig,
-} from 'axios'
+import axios, { type AxiosInstance, type InternalAxiosRequestConfig } from 'axios'
 import { env } from '@/config/env.config'
 import { setupAuthInterceptor } from './interceptors/auth.interceptor'
 import { setupErrorInterceptors } from './interceptors/error.interceptor'

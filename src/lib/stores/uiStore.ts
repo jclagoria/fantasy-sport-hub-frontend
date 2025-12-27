@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
-import type { UIState, Notification } from '@/lib/types/state.types'
+import type { Notification, UIState } from '@/lib/types/state.types'
 
 export const useUIStore = create<UIState>()(
   devtools(
@@ -12,18 +12,12 @@ export const useUIStore = create<UIState>()(
       // Sidebar state
       sidebarOpen: false,
       toggleSidebar: () =>
-        set(
-          (state) => ({ sidebarOpen: !state.sidebarOpen }),
-          false,
-          'ui/toggleSidebar',
-        ),
-      setSidebarOpen: (open) =>
-        set({ sidebarOpen: open }, false, 'ui/setSidebarOpen'),
+        set((state) => ({ sidebarOpen: !state.sidebarOpen }), false, 'ui/toggleSidebar'),
+      setSidebarOpen: (open) => set({ sidebarOpen: open }, false, 'ui/setSidebarOpen'),
 
       // Modal State
       activeModal: null,
-      openModal: (modalId) =>
-        set({ activeModal: modalId }, false, 'ui/openModal'),
+      openModal: (modalId) => set({ activeModal: modalId }, false, 'ui/openModal'),
       closeModal: () => set({ activeModal: null }, false, 'ui/closeModal'),
 
       // Notifications state
@@ -31,13 +25,10 @@ export const useUIStore = create<UIState>()(
       addNotification: (notification) =>
         set(
           (state) => ({
-            notifications: [
-              ...state.notifications,
-              { ...notification, id: crypto.randomUUID() },
-            ],
+            notifications: [...state.notifications, { ...notification, id: crypto.randomUUID() }],
           }),
           false,
-          'ui/addNotification',
+          'ui/addNotification'
         ),
       removeNotification: (id) =>
         set(
@@ -45,14 +36,13 @@ export const useUIStore = create<UIState>()(
             notifications: state.notifications.filter((n) => n.id !== id),
           }),
           false,
-          'ui/removeNotification',
+          'ui/removeNotification'
         ),
-      clearNotifications: () =>
-        set({ notifications: [] }, false, 'ui/clearNotifications'),
+      clearNotifications: () => set({ notifications: [] }, false, 'ui/clearNotifications'),
     }),
     {
       name: 'UIStore', // DevTools name
       enabled: process.env.NODE_ENV === 'development',
-    },
-  ),
+    }
+  )
 )

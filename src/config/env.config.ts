@@ -24,14 +24,9 @@ function getEnvVar(key: string, defaultValue?: string): string {
 export const env: EnvConfig = {
   apiUrl: getEnvVar('NEXT_PUBLIC_API_URL', 'http://localhost:3000/api'),
   apiTimeout: Number(getEnvVar('NEXT_PUBLIC_API_TIMEOUT', '30000')),
-  environment: getEnvVar(
-    'NEXT_PUBLIC_ENVIRONMENT',
-    'development',
-  ) as EnvConfig['environment'],
-  isDevelopment:
-    getEnvVar('NEXT_PUBLIC_ENVIRONMENT', 'development') === 'development',
-  isProduction:
-    getEnvVar('NEXT_PUBLIC_ENVIRONMENT', 'development') === 'production',
+  environment: getEnvVar('NEXT_PUBLIC_ENVIRONMENT', 'development') as EnvConfig['environment'],
+  isDevelopment: getEnvVar('NEXT_PUBLIC_ENVIRONMENT', 'development') === 'development',
+  isProduction: getEnvVar('NEXT_PUBLIC_ENVIRONMENT', 'development') === 'production',
 }
 
 // Validation

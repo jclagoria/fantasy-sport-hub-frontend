@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { authApi } from '@/lib/api/enpoints/auth'
+import { ApiErrorException } from '@/lib/api/interceptors/error.interceptor'
 import { useAuthStore } from '@/lib/stores/authStore'
 import type { LoginRequest } from '@/lib/types/api.types'
-import { ApiErrorException } from '@/lib/api/interceptors/error.interceptor'
 
 /**
  * Authentication hooks using TanStack Query
@@ -27,7 +27,7 @@ export function useLogin() {
           accessToken: data.accessToken,
           refreshToken: data.refreshToken,
         },
-        data.user,
+        data.user
       )
 
       // Invalidate all queries to refetch with new auth state

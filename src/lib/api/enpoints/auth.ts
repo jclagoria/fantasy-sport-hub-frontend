@@ -2,8 +2,8 @@ import { apiClient } from '@/lib/api/client'
 import type {
   LoginRequest,
   LoginResponse,
-  RegisterRequest,
   RefreshTokenRequest,
+  RegisterRequest,
   TokenPair,
   User,
 } from '@/lib/types/api.types'
@@ -25,10 +25,7 @@ export const authApi = {
    * @returns Login response with tokens and user data
    */
   async login(credentials: LoginRequest): Promise<LoginResponse> {
-    const response = await apiClient.post<LoginResponse>(
-      '/auth/login',
-      credentials,
-    )
+    const response = await apiClient.post<LoginResponse>('/auth/login', credentials)
     return response.data
   },
 
