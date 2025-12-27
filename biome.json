@@ -16,12 +16,8 @@
   },
   "javascript": {
     "formatter": {
-      "semicolons": "asNeeded"
-    }
-  },
-  "typescript": {
-    "formatter": {
-      "semicolons": "asNeeded"
+      "semicolons": "asNeeded",
+      "quoteStyle": "single"
     }
   },
   "linter": {
