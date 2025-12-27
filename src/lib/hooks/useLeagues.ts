@@ -1,20 +1,31 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import  { leaguesApi } from '@/lib/api/enpoints/leagues'
 
-// Mock API call (replace with actual API client)
-async function fetchLeagues() {
-    const response = await fetch('/api/v1/leagues')
-    if (!response.ok) throw new Error('Failed to fetch leagues')
-    return response.json()
+export function useLeagues(filters?: Parameters<typeof leaguesApi.list>[0]) {
+    return useQuery({
+        queryKey: ['leagues', filters],
+        queryFn: () => leaguesApi.list(filters),
+        // TanStack Query handles loading states, errors, and caching automatically
+        staleTime: 5 * 60 * 1000, // 5 minutes
+    })
 }
 
-/**
- * Custom hook for fetching user leagues
- * Demonstrates TanStack Query usage pattern
- */
-export function useLeagues() {
+export function useLeague(leagueId: string) {
     return useQuery({
-        queryKey: ['leagues'],
-        queryFn: fetchLeagues,
-        staleTime: 1000 * 60 * 5, // 5 minutes (override global if needed)
+        queryKey: ['league', leagueId],
+        queryFn: () => leaguesApi.getById(leagueId),
+        enabled: !!leagueId, // Only run if leagueId is provided
+    })
+}
+
+export function useCreateLeague() {
+    const queryClient = useQueryClient()
+
+    return useMutation({
+        mutationFn: leaguesApi.create,
+        onSuccess: () => {
+            // Invalidate leagues list to refetch with new league
+            queryClient.invalidateQueries({ queryKey: ['leagues'] })
+        },
     })
 }
